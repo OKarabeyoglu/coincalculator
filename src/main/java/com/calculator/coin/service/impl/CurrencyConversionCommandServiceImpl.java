@@ -3,6 +3,7 @@ package com.calculator.coin.service.impl;
 import com.calculator.coin.delegate.ExchangeRateDelegate;
 import com.calculator.coin.domain.CurrencyConversion;
 import com.calculator.coin.dto.CurrencyConversionDto;
+import com.calculator.coin.exception.CurrencyConversionContext;
 import com.calculator.coin.repository.CurrencyConversionRepository;
 import com.calculator.coin.service.CurrencyConversionCommandService;
 import com.calculator.coin.util.CurrencyUtil;
@@ -30,6 +31,7 @@ public class CurrencyConversionCommandServiceImpl implements CurrencyConversionC
         Objects.requireNonNull(targetCurrency, "Argument ‘targetCurrency’ can not be null!");
         Objects.requireNonNull(sourceAmount, "Argument ‘sourceAmount’ can not be null!");
 
+        CurrencyConversionContext.of(sourceAmount).checkCurrencyConversionValidity();
         Double rate = exchangeRateDelegate.retrieveExchangeRate(sourceCurrency, targetCurrency);
         return saveCurrencyConversionTransaction(sourceCurrency, targetCurrency, sourceAmount, rate);
     }
