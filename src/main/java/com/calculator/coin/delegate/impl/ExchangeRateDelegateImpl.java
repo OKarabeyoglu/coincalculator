@@ -2,8 +2,8 @@ package com.calculator.coin.delegate.impl;
 
 import com.calculator.coin.delegate.ExchangeRateDelegate;
 import com.calculator.coin.dto.ExchangeRateDto;
-import com.calculator.coin.enums.CurrencyValidationRule;
-import com.calculator.coin.exception.BusinessValidationException;
+import com.calculator.coin.exception.NoDataException;
+import com.calculator.coin.exception.ServiceCallException;
 import com.calculator.coin.util.ExchangeRateServiceProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,11 +41,12 @@ public class ExchangeRateDelegateImpl implements ExchangeRateDelegate {
                     ExchangeRateDto.class);
         } catch (Exception ex) {
             log.error("An error occurred while calling exchange rate service", ex);
+           new ServiceCallException("could.not.call.service", ex);
         }
         if (Objects.nonNull(exchangeRateResult) && Objects.nonNull(exchangeRateResult.getBody())) {
             return exchangeRateResult.getBody().getLast_trade_price();
         } else {
-            throw new BusinessValidationException(CurrencyValidationRule.NO_DATA_ERROR);
+            throw new NoDataException("no.data.found.error");
         }
     }
 }

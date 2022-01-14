@@ -1,6 +1,5 @@
 package com.calculator.coin.exception;
 
-import com.calculator.coin.enums.CurrencyValidationRule;
 import lombok.Value;
 
 @Value(staticConstructor = "of")
@@ -12,10 +11,10 @@ public class CurrencyConversionContext {
 
     public void checkCurrencyConversionValidity() {
         if (sourceAmount < MIN_SPEND_AMOUNT) {
-            throw new BusinessValidationException(CurrencyValidationRule.MINIMUM_SPEND_AMOUNT_ERROR);
+            throw new MinimumSpendAmountException("minimum.spend.amount.error");
         }
         if (sourceAmount > MAX_SPEND_AMOUNT) {
-            throw new BusinessValidationException(CurrencyValidationRule.MAXIMUM_SPEND_AMOUNT_ERROR);
+            throw new MaximumSpendAmountException("maximum.spend.amount.error");
         }
     }
 }
