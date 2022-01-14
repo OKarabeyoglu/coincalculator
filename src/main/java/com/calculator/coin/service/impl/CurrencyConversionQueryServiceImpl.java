@@ -8,8 +8,10 @@ import com.calculator.coin.util.CurrencyUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -24,9 +26,13 @@ public class CurrencyConversionQueryServiceImpl implements CurrencyConversionQue
     @Override
     public List<CurrencyConversionDto> getCurrencyConversionListByDate(LocalDate date) {
         Objects.requireNonNull(date, "Argument ‘date’ can not be null!");
+        List<CurrencyConversionDto> currencyConversionDtoList = new ArrayList<>();
         List<CurrencyConversion> currencyConversionList = currencyConversionRepository.
-                findByTransactionIdx(CurrencyUtil.createTransactionIdxNo(date));
-        return currencyConversionList.stream().map(c -> modelMapper.map(c, CurrencyConversionDto.class))
-                .collect(Collectors.toList());
+                findByTransactionIdxNo(CurrencyUtil.createTransactionIdxNo(date));
+        if (!CollectionUtils.isEmpty(currencyConversionList)) {
+            currencyConversionDtoList = currencyConversionList.stream().map(c -> modelMapper.map(c, CurrencyConversionDto.class))
+                    .collect(Collectors.toList());
+        }
+        return currencyConversionDtoList;
     }
 }

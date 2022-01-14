@@ -56,6 +56,6 @@ public class ExchangeRateDelegateImplTest {
                 Mockito.eq(ExchangeRateDto.class));
 
         assertThat(rate).isNotNull();
-        assertThat(rate).isEqualTo(Double.valueOf(10));
+        assertThat(rate).isEqualTo(Double.valueOf(45000));
     }
 }

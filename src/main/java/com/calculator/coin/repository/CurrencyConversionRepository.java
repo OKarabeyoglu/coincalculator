@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CurrencyConversionRepository extends JpaRepository<CurrencyConversion, Long> {
 
-    List<CurrencyConversion> findByTransactionIdx(Integer idxNo);
+    List<CurrencyConversion> findByTransactionIdxNo(Integer idxNo);
 }

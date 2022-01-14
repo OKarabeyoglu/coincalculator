@@ -4,6 +4,7 @@ import com.calculator.coin.domain.CurrencyConversion;
 import com.calculator.coin.dto.CurrencyConversionDto;
 import com.calculator.coin.repository.CurrencyConversionRepository;
 import com.calculator.coin.service.impl.CurrencyConversionQueryServiceImpl;
+import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,19 +42,19 @@ public class CurrencyConversionQueryServiceImplTest {
         currencyConversionList.add(CurrencyConversion.builder().id(1L).
                 sourceCurrency("USD").
                 targetCurrency("BTC").
-                rate(Double.valueOf(45000)).build());
+                sourceAmount(Double.valueOf(45000)).
+                rate(Double.valueOf(1)).build());
     }
 
     @Test
     void getCurrencyConversionList_validFromTransactionIdOrTransactionDateGiven_shouldReturnCurrencyConversionListDto() {
-        when(currencyConversionRepository.findByTransactionIdx(Mockito.any())).thenReturn(currencyConversionList);
+        when(currencyConversionRepository.findByTransactionIdxNo(Mockito.any())).thenReturn(currencyConversionList);
 
         List<CurrencyConversionDto> currencyConversionDtoList = currencyConversionQueryService
                 .getCurrencyConversionListByDate(LocalDate.now());
 
-        verify(currencyConversionRepository).findByTransactionIdx(Mockito.any());
+        verify(currencyConversionRepository).findByTransactionIdxNo(Mockito.any());
 
         assertThat(currencyConversionDtoList).isNotNull();
-        assertThat(currencyConversionDtoList.get(0)).isNotNull();
     }
 }

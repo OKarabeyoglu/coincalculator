@@ -29,6 +29,7 @@ public class CurrencyConversionCommandServiceImpl implements CurrencyConversionC
         Objects.requireNonNull(sourceCurrency, "Argument ‘sourceCurrency’ can not be null!");
         Objects.requireNonNull(targetCurrency, "Argument ‘targetCurrency’ can not be null!");
         Objects.requireNonNull(sourceAmount, "Argument ‘sourceAmount’ can not be null!");
+
         Double rate = exchangeRateDelegate.retrieveExchangeRate(sourceCurrency, targetCurrency);
         return saveCurrencyConversionTransaction(sourceCurrency, targetCurrency, sourceAmount, rate);
     }
