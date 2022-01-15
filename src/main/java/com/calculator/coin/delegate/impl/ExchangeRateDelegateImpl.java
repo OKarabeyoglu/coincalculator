@@ -28,6 +28,9 @@ public class ExchangeRateDelegateImpl implements ExchangeRateDelegate {
 
     @Override
     public Double retrieveExchangeRate(String baseCurrency, String targetCurrency) {
+        Objects.requireNonNull(baseCurrency, "Argument ‘baseCurrency’ can not be null!");
+        Objects.requireNonNull(targetCurrency, "Argument ‘targetCurrency’ can not be null!");
+
         String retrieveExchangeRateUrl = exchangeRateServiceProperties.getBaseUrl() +
                 targetCurrency + "-" + baseCurrency;
         ResponseEntity<ExchangeRateDto> exchangeRateResult = null;
@@ -41,11 +44,12 @@ public class ExchangeRateDelegateImpl implements ExchangeRateDelegate {
                     ExchangeRateDto.class);
         } catch (Exception ex) {
             log.error("An error occurred while calling exchange rate service", ex);
-           new ServiceCallException("could.not.call.service", ex);
+            throw new ServiceCallException("could.not.call.service", ex);
         }
-        if (Objects.nonNull(exchangeRateResult) && Objects.nonNull(exchangeRateResult.getBody())) {
+        if (Objects.nonNull(exchangeRateResult.getBody())) {
             return exchangeRateResult.getBody().getLast_trade_price();
         } else {
+            log.error("no.data.found.error");
             throw new NoDataException("no.data.found.error");
         }
     }

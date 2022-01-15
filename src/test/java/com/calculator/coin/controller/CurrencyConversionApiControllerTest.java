@@ -1,6 +1,7 @@
 package com.calculator.coin.controller;
 
 import com.calculator.coin.dto.CurrencyConversionDto;
+import com.calculator.coin.enums.Currency;
 import com.calculator.coin.request.CalculateExchangeRateRequest;
 import com.calculator.coin.response.CalculateExchangeRateResponse;
 import com.calculator.coin.response.CurrencyConversionListResponse;
@@ -57,8 +58,8 @@ public class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
         currencyConversionDto.setTransactionIdxNo(CurrencyUtil.createTransactionIdxNo(currencyConversionDto.getTransactionDate()));
         currencyConversionDto.setConvertedAmount(Double.valueOf(10000));
         currencyConversionDtoList.add(currencyConversionDto);
-        calculateExchangeRateRequest.setTargetCurrency(targetCurrency);
-        calculateExchangeRateRequest.setSourceCurrency(sourceCurrency);
+        calculateExchangeRateRequest.setTargetCurrency(Currency.BTC);
+        calculateExchangeRateRequest.setSourceCurrency(Currency.USD);
         calculateExchangeRateRequest.setSourceAmount(Double.valueOf(1000));
         currencyConversionListResponse.setCurrencyConversionDtoList(currencyConversionDtoList);
     }
@@ -80,12 +81,12 @@ public class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
     @Test
     void calculateExchangeRate_validCalculateExchangeRateRequestGiven_shouldReturnCurrencyConversionDto() {
         //stubbing
-        when(currencyConversionCommandService.createCurrencyConversionTransaction(sourceCurrency, targetCurrency, sourceAmount))
+        when(currencyConversionCommandService.createCurrencyConversionTransaction(Currency.USD, Currency.BTC, sourceAmount))
                 .thenReturn(currencyConversionDto);
         //interaction
         CalculateExchangeRateResponse response = currencyConversionApiController.calculateExchangeRate(calculateExchangeRateRequest);
         //verification
-        verify(this.currencyConversionCommandService).createCurrencyConversionTransaction(sourceCurrency, targetCurrency, sourceAmount);
+        verify(this.currencyConversionCommandService).createCurrencyConversionTransaction(Currency.USD, Currency.BTC, sourceAmount);
         //assertion
         assertThat(response).isNotNull();
         assertThat(response.getCurrencyConversionDto()).isNotNull();

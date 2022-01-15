@@ -3,6 +3,7 @@ package com.calculator.coin.service.impl;
 import com.calculator.coin.delegate.ExchangeRateDelegate;
 import com.calculator.coin.domain.CurrencyConversion;
 import com.calculator.coin.dto.CurrencyConversionDto;
+import com.calculator.coin.enums.Currency;
 import com.calculator.coin.exception.CurrencyConversionContext;
 import com.calculator.coin.repository.CurrencyConversionRepository;
 import com.calculator.coin.service.CurrencyConversionCommandService;
@@ -25,15 +26,15 @@ public class CurrencyConversionCommandServiceImpl implements CurrencyConversionC
     private final ModelMapper modelMapper;
 
     @Override
-    public CurrencyConversionDto createCurrencyConversionTransaction(String sourceCurrency,
-                                                                     String targetCurrency, Double sourceAmount) {
+    public CurrencyConversionDto createCurrencyConversionTransaction(Currency sourceCurrency,
+                                                                     Currency targetCurrency, Double sourceAmount) {
         Objects.requireNonNull(sourceCurrency, "Argument ‘sourceCurrency’ can not be null!");
         Objects.requireNonNull(targetCurrency, "Argument ‘targetCurrency’ can not be null!");
         Objects.requireNonNull(sourceAmount, "Argument ‘sourceAmount’ can not be null!");
 
-        CurrencyConversionContext.of(sourceAmount).checkCurrencyConversionValidity();
-        Double rate = exchangeRateDelegate.retrieveExchangeRate(sourceCurrency, targetCurrency);
-        return saveCurrencyConversionTransaction(sourceCurrency, targetCurrency, sourceAmount, rate);
+        CurrencyConversionContext.of(sourceAmount, sourceCurrency, targetCurrency).checkCurrencyConversionValidity();
+        Double rate = exchangeRateDelegate.retrieveExchangeRate(sourceCurrency.name(), targetCurrency.name());
+        return saveCurrencyConversionTransaction(sourceCurrency.name(), targetCurrency.name(), sourceAmount, rate);
     }
 
     private CurrencyConversionDto saveCurrencyConversionTransaction(String to, String from,

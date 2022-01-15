@@ -26,6 +26,7 @@ public class CurrencyConversionQueryServiceImpl implements CurrencyConversionQue
     @Override
     public List<CurrencyConversionDto> getCurrencyConversionListByDate(LocalDate date) {
         Objects.requireNonNull(date, "Argument ‘date’ can not be null!");
+
         List<CurrencyConversionDto> currencyConversionDtoList = new ArrayList<>();
         List<CurrencyConversion> currencyConversionList = currencyConversionRepository.
                 findByTransactionIdxNo(CurrencyUtil.createTransactionIdxNo(date));

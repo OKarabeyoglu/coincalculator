@@ -3,6 +3,7 @@ package com.calculator.coin.service;
 import com.calculator.coin.delegate.ExchangeRateDelegate;
 import com.calculator.coin.domain.CurrencyConversion;
 import com.calculator.coin.dto.CurrencyConversionDto;
+import com.calculator.coin.enums.Currency;
 import com.calculator.coin.repository.CurrencyConversionRepository;
 import com.calculator.coin.service.impl.CurrencyConversionCommandServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,7 @@ public class CurrencyConversionCommandServiceImplTest {
     void setup() {
         sourceCurrency = "USD";
         targetCurrency = "BTC";
-        sourceAmount = Double.valueOf(45000);
+        sourceAmount = Double.valueOf(4500);
         currencyConversion = CurrencyConversion.builder()
                 .id(1L)
                 .sourceCurrency(sourceCurrency)
@@ -54,7 +55,7 @@ public class CurrencyConversionCommandServiceImplTest {
         currencyConversionDto.setSourceCurrency(sourceCurrency);
         currencyConversionDto.setTargetCurrency(targetCurrency);
         currencyConversionDto.setSourceAmount(sourceAmount);
-        currencyConversionDto.setRate(Double.valueOf(45000));
+        currencyConversionDto.setRate(Double.valueOf(4500));
     }
 
     @Test
@@ -64,7 +65,7 @@ public class CurrencyConversionCommandServiceImplTest {
         when(modelMapper.map(Mockito.eq(currencyConversion), Mockito.eq(CurrencyConversionDto.class))).thenReturn(currencyConversionDto);
 
         CurrencyConversionDto currencyConversionDto = currencyConversionCommandService.
-                createCurrencyConversionTransaction(sourceCurrency, targetCurrency, sourceAmount);
+                createCurrencyConversionTransaction(Currency.USD, Currency.BTC, sourceAmount);
 
         verify(exchangeRateDelegate).retrieveExchangeRate(sourceCurrency, targetCurrency);
         verify(currencyConversionRepository).save(Mockito.any());
