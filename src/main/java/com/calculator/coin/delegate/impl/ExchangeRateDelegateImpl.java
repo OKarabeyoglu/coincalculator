@@ -43,13 +43,11 @@ public class ExchangeRateDelegateImpl implements ExchangeRateDelegate {
             exchangeRateResult = restTemplate.exchange(retrieveExchangeRateUrl, HttpMethod.GET, entity,
                     ExchangeRateDto.class);
         } catch (Exception ex) {
-            log.error("An error occurred while calling exchange rate service", ex);
             throw new ServiceCallException("could.not.call.service", ex);
         }
         if (Objects.nonNull(exchangeRateResult.getBody())) {
             return exchangeRateResult.getBody().getLast_trade_price();
         } else {
-            log.error("no.data.found.error");
             throw new NoDataException("no.data.found.error");
         }
     }
