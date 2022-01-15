@@ -11,15 +11,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class CurrencyConversionContextTest {
 
     CurrencyConversionContext validContext;
-    CurrencyConversionContext invalidContextMin;
-    CurrencyConversionContext invalidContextMax;
+    CurrencyConversionContext invalidContextMinSourceAmount;
+    CurrencyConversionContext invalidContextMaxSourceAmount;
+    CurrencyConversionContext invalidContextSourceCurrency;
+    CurrencyConversionContext invalidContextTargetCurrency;
 
 
     @BeforeEach
     void setup() {
         validContext = CurrencyConversionContext.of(Double.valueOf(1000), Currency.USD, Currency.BTC);
-        invalidContextMin = CurrencyConversionContext.of(Double.valueOf(10), Currency.USD, Currency.BTC);
-        invalidContextMax = CurrencyConversionContext.of(Double.valueOf(10000), Currency.USD, Currency.BTC);
+        invalidContextMinSourceAmount = CurrencyConversionContext.of(Double.valueOf(10), Currency.USD, Currency.BTC);
+        invalidContextMaxSourceAmount = CurrencyConversionContext.of(Double.valueOf(10000), Currency.USD, Currency.BTC);
+        invalidContextSourceCurrency = CurrencyConversionContext.of(Double.valueOf(1000), Currency.ETH, Currency.BTC);
+        invalidContextTargetCurrency = CurrencyConversionContext.of(Double.valueOf(1000), Currency.USD, Currency.EUR);
     }
 
     @Test
@@ -28,15 +32,27 @@ public class CurrencyConversionContextTest {
     }
 
     @Test
-    void checkExcelLineValidity_invalidMinContextGiven_shouldNotThrowException() {
+    void checkConversionValidity_invalidMinContextGiven_shouldNotThrowException() {
         Assertions.assertThrows(MinimumSpendAmountException.class,
-                () -> invalidContextMin.checkCurrencyConversionValidity());
+                () -> invalidContextMinSourceAmount.checkCurrencyConversionValidity());
     }
 
     @Test
-    void checkExcelLineValidity_invalidMaxContextGiven_shouldNotThrowException() {
+    void checkConversionValidity_invalidMaxContextGiven_shouldNotThrowException() {
         Assertions.assertThrows(MaximumSpendAmountException.class,
-                () -> invalidContextMax.checkCurrencyConversionValidity());
+                () -> invalidContextMaxSourceAmount.checkCurrencyConversionValidity());
+    }
+
+    @Test
+    void checkConversionValidity_invalidSourceCurrencyGiven_shouldNotThrowException() {
+        Assertions.assertThrows(SourceCurrencyException.class,
+                () -> invalidContextSourceCurrency.checkCurrencyConversionValidity());
+    }
+
+    @Test
+    void checkConversionValidity_invalidTargetCurrencyGiven_shouldNotThrowException() {
+        Assertions.assertThrows(TargetCurrencyException.class,
+                () -> invalidContextTargetCurrency.checkCurrencyConversionValidity());
     }
 
 }
