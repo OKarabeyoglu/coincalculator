@@ -1,28 +1,30 @@
 # coincalculator
 
-### REQUIREMENTS
-* Java 8
-* Maven
-* PostgreSQL
-
-## RUN THE PROJECT
+## Run the project:
 
 - Clone the project
+- Build the project
 - Configure PostgreSQL configurations in application.properties
-- Create coin database and coin schema in PostgreSQL
-- Build the project
+```
+  spring.datasource.username=postgres
+  spring.datasource.password=postgres
+  spring.datasource.url=jdbc:postgresql://localhost:5432/coin
+```
+- Create **coin** database in PostgreSQL
 - Run the application
-- http://localhost:8080/swagger-ui.html
+```
+http://localhost:8080/swagger-ui.html
+```
 
-### With DOCKER
+### with Docker
 
-- Build the project
+- Build the project 
 - Run commands below:
 ```
-docker build . 
+maven clean install
 ```
 ```
-docker-compose up -d 
+docker-compose up 
 ```
 
 
