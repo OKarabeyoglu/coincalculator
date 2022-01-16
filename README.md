@@ -4,8 +4,6 @@
 * Java 8
 * Maven
 * PostgreSQL
-* Git
-* Docker Client
 
 ## RUN THE PROJECT
 

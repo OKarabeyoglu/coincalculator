@@ -37,11 +37,11 @@ public class CurrencyConversionCommandServiceImpl implements CurrencyConversionC
         return saveCurrencyConversionTransaction(sourceCurrency.name(), targetCurrency.name(), sourceAmount, rate);
     }
 
-    private CurrencyConversionDto saveCurrencyConversionTransaction(String to, String from,
+    private CurrencyConversionDto saveCurrencyConversionTransaction(String sourceCurrency, String targetCurrency,
                                                                     Double amount, Double rate) {
         CurrencyConversion currencyConversion = CurrencyConversion.builder()
-                .sourceCurrency(from)
-                .targetCurrency(to)
+                .sourceCurrency(sourceCurrency)
+                .targetCurrency(targetCurrency)
                 .rate(rate)
                 .sourceAmount(amount)
                 .convertedAmount(amount / rate)
