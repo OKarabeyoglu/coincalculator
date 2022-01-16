@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE, reason = "could.not.call.service")
 public class ServiceCallException extends RuntimeException {
     private final String causeDetailMessage;
+
     public ServiceCallException(String message, Throwable cause) {
         super(message);
         this.causeDetailMessage = cause.getMessage();

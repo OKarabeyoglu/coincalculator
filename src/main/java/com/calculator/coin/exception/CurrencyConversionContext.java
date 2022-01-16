@@ -7,12 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 @Value(staticConstructor = "of")
 @Slf4j
 public class CurrencyConversionContext {
+    private static final Double MIN_SPEND_AMOUNT = Double.valueOf(25);
+    private static final Double MAX_SPEND_AMOUNT = Double.valueOf(5000);
     Double sourceAmount;
     Currency sourceCurrency;
     Currency targetCurrency;
-
-    private static final Double MIN_SPEND_AMOUNT = Double.valueOf(25);
-    private static final Double MAX_SPEND_AMOUNT = Double.valueOf(5000);
 
     public void checkCurrencyConversionValidity() {
         if (!Currency.sourceCurrencies().contains(sourceCurrency)) {

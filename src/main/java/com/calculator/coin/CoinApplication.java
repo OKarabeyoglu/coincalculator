@@ -8,12 +8,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EntityScan("com.calculator.coin.domain")
-@EnableJpaRepositories(basePackages="com.calculator.coin.repository")
+@EnableJpaRepositories(basePackages = "com.calculator.coin.repository")
 @EnableSwagger2
 public class CoinApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CoinApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CoinApplication.class, args);
+    }
 
 }

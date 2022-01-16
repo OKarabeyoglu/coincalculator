@@ -34,15 +34,15 @@ public class CurrencyConversionApiController {
     @GetMapping(value = "")
     @ApiOperation(value = "Search Currency Conversions By Date", notes = "This method get converted currency list by " +
             "transaction date")
-    public CurrencyConversionListResponse getCurrencyConversionListByDate (
-                                                                     @RequestParam(name = "transactionDate")
-                                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate transactionDate) {
+    public CurrencyConversionListResponse getCurrencyConversionListByDate(
+            @RequestParam(name = "transactionDate")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate transactionDate) {
         return new CurrencyConversionListResponse(currencyConversionQueryService.getCurrencyConversionListByDate(transactionDate));
     }
 
     @PostMapping(value = "create")
     @ApiOperation(value = "create currency conversion transaction", notes = "This method create currency " +
-            "conversion transaction")
+            "conversion transaction and return it.")
     public CalculateExchangeRateResponse calculateExchangeRate(@RequestBody @Valid @NotNull(
             message = "{calculateExchangeRateRequest.can.not.be.null}") CalculateExchangeRateRequest request) {
         return new CalculateExchangeRateResponse(currencyConversionCommandService

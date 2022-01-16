@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
+class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
 
     @Mock
     private CurrencyConversionQueryService currencyConversionQueryService;
@@ -43,6 +43,7 @@ public class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
     private List<CurrencyConversionDto> currencyConversionDtoList = new ArrayList<>();
     private CalculateExchangeRateRequest calculateExchangeRateRequest = new CalculateExchangeRateRequest();
     private CurrencyConversionListResponse currencyConversionListResponse = new CurrencyConversionListResponse();
+    private CalculateExchangeRateResponse calculateExchangeRateResponse = new CalculateExchangeRateResponse();
 
     @BeforeEach
     void setup() {
@@ -51,6 +52,7 @@ public class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
         sourceAmount = Double.valueOf(1000);
         transactionDate = LocalDate.now();
         currencyConversionDto.setId(1L);
+        currencyConversionDto.setRate(Double.valueOf(300));
         currencyConversionDto.setTargetCurrency(targetCurrency);
         currencyConversionDto.setSourceCurrency(sourceCurrency);
         currencyConversionDto.setSourceAmount(sourceAmount);
@@ -65,7 +67,7 @@ public class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
     }
 
     @Test
-    void getCurrencyConversionList_validTransactionIdGiven_shouldReturnCurrencyConversionListResponse() {
+    void getCurrencyConversionList_validTransactionDateGiven_shouldReturnCurrencyConversionListResponse() {
 
         when(currencyConversionQueryService.getCurrencyConversionListByDate(transactionDate))
                 .thenReturn(currencyConversionDtoList);
@@ -76,6 +78,14 @@ public class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
 
         assertThat(currencyConversionListResponse).isNotNull();
         assertThat(currencyConversionListResponse.getCurrencyConversionDtoList()).isNotNull();
+        assertThat(currencyConversionListResponse.getCurrencyConversionDtoList().get(0).getId()).isEqualTo(currencyConversionDto.getId());
+        assertThat(currencyConversionListResponse.getCurrencyConversionDtoList().get(0).getTargetCurrency()).isEqualTo(currencyConversionDto.getTargetCurrency());
+        assertThat(currencyConversionListResponse.getCurrencyConversionDtoList().get(0).getTransactionDate()).isEqualTo(currencyConversionDto.getTransactionDate());
+        assertThat(currencyConversionListResponse.getCurrencyConversionDtoList().get(0).getTransactionIdxNo()).isEqualTo(currencyConversionDto.getTransactionIdxNo());
+        assertThat(currencyConversionListResponse.getCurrencyConversionDtoList().get(0).getRate()).isEqualTo(currencyConversionDto.getRate());
+        assertThat(currencyConversionListResponse.getCurrencyConversionDtoList().get(0).getSourceAmount()).isEqualTo(currencyConversionDto.getSourceAmount());
+        assertThat(currencyConversionListResponse.getCurrencyConversionDtoList().get(0).getConvertedAmount()).isEqualTo(currencyConversionDto.getConvertedAmount());
+        assertThat(currencyConversionListResponse.getCurrencyConversionDtoList().get(0).getSourceCurrency()).isEqualTo(currencyConversionDto.getSourceCurrency());
     }
 
     @Test
@@ -84,13 +94,13 @@ public class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
         when(currencyConversionCommandService.createCurrencyConversionTransaction(Currency.USD, Currency.BTC, sourceAmount))
                 .thenReturn(currencyConversionDto);
         //interaction
-        CalculateExchangeRateResponse response = currencyConversionApiController.calculateExchangeRate(calculateExchangeRateRequest);
+        calculateExchangeRateResponse = currencyConversionApiController.calculateExchangeRate(calculateExchangeRateRequest);
         //verification
         verify(this.currencyConversionCommandService).createCurrencyConversionTransaction(Currency.USD, Currency.BTC, sourceAmount);
         //assertion
-        assertThat(response).isNotNull();
-        assertThat(response.getCurrencyConversionDto()).isNotNull();
-        assertThat(response.getCurrencyConversionDto().getSourceCurrency()).isEqualTo(sourceCurrency);
+        assertThat(calculateExchangeRateResponse).isNotNull();
+        assertThat(calculateExchangeRateResponse.getCurrencyConversionDto()).isNotNull();
+        assertThat(calculateExchangeRateResponse.getCurrencyConversionDto().getSourceCurrency()).isEqualTo(sourceCurrency);
     }
 
 }

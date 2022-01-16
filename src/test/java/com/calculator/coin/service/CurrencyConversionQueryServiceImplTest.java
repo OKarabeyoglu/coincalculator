@@ -4,7 +4,6 @@ import com.calculator.coin.domain.CurrencyConversion;
 import com.calculator.coin.dto.CurrencyConversionDto;
 import com.calculator.coin.repository.CurrencyConversionRepository;
 import com.calculator.coin.service.impl.CurrencyConversionQueryServiceImpl;
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +22,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CurrencyConversionQueryServiceImplTest {
+class CurrencyConversionQueryServiceImplTest {
 
     @Mock
     private CurrencyConversionRepository currencyConversionRepository;
@@ -57,4 +56,5 @@ public class CurrencyConversionQueryServiceImplTest {
 
         assertThat(currencyConversionDtoList).isNotNull();
     }
+
 }
