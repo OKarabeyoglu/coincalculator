@@ -7,7 +7,5 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "no.data.found.error")
 public class NoDataException extends RuntimeException {
-    public NoDataException(String message) {
-        super(message);
-    }
+    public NoDataException(String message) { super(message); }
 }

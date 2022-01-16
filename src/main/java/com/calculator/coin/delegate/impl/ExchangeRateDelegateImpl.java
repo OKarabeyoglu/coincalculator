@@ -27,12 +27,12 @@ public class ExchangeRateDelegateImpl implements ExchangeRateDelegate {
     private final ExchangeRateServiceProperties exchangeRateServiceProperties;
 
     @Override
-    public Double retrieveExchangeRate(String baseCurrency, String targetCurrency) {
-        Objects.requireNonNull(baseCurrency, "Argument ‘baseCurrency’ can not be null!");
+    public Double retrieveExchangeRate(String sourceCurrency, String targetCurrency) {
+        Objects.requireNonNull(sourceCurrency, "Argument ‘sourceCurrency’ can not be null!");
         Objects.requireNonNull(targetCurrency, "Argument ‘targetCurrency’ can not be null!");
 
         String retrieveExchangeRateUrl = exchangeRateServiceProperties.getBaseUrl() +
-                targetCurrency + "-" + baseCurrency;
+                targetCurrency + "-" + sourceCurrency;
         ResponseEntity<ExchangeRateDto> exchangeRateResult = null;
         try {
             HttpHeaders headers = new HttpHeaders();

@@ -63,7 +63,7 @@ class CurrencyConversionApiControllerTest<CurrencyConversionPageDto> {
         calculateExchangeRateRequest.setTargetCurrency(Currency.BTC);
         calculateExchangeRateRequest.setSourceCurrency(Currency.USD);
         calculateExchangeRateRequest.setSourceAmount(Double.valueOf(1000));
-        currencyConversionListResponse.setCurrencyConversionDtoList(currencyConversionDtoList);
+        currencyConversionListResponse = new CurrencyConversionListResponse(currencyConversionDtoList);
     }
 
     @Test
