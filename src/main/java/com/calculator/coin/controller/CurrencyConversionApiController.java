@@ -32,7 +32,7 @@ public class CurrencyConversionApiController {
     private final CurrencyConversionCommandService currencyConversionCommandService;
 
     @GetMapping(value = "")
-    @ApiOperation(value = "Search Currency Conversions By Date", notes = "This method get converted currency list by " +
+    @ApiOperation(value = "Search currency conversions by date", notes = "This method get converted currency list by " +
             "transaction date")
     public CurrencyConversionListResponse getCurrencyConversionListByDate(
             @RequestParam(name = "transactionDate")
@@ -41,7 +41,7 @@ public class CurrencyConversionApiController {
     }
 
     @PostMapping(value = "create")
-    @ApiOperation(value = "create currency conversion transaction", notes = "This method create currency " +
+    @ApiOperation(value = "Create and return currency conversion transaction", notes = "This method create currency " +
             "conversion transaction and return it.")
     public CalculateExchangeRateResponse calculateExchangeRate(@RequestBody @Valid @NotNull(
             message = "{calculateExchangeRateRequest.can.not.be.null}") CalculateExchangeRateRequest request) {
